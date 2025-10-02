@@ -6,7 +6,7 @@
     <div class="min-h-screen grid grid-cols-1 md:grid-cols-2">
         <!-- Left Column (Image / Banner) -->
         <div class="hidden md:flex items-center justify-center bg-indigo-600">
-            <img src="{{ asset('storage/images/about') . $data->image1 }}" alt="Admin Banner" class="h-full w-full object-cover">
+            <img src="{{ asset('storage/images/about') . ($data->image1 ?? '') }}" alt="Admin Banner" class="h-full w-full object-cover">
         </div>
 
         <!-- Right Column (Login Form) -->
