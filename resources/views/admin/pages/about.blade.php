@@ -102,6 +102,12 @@
                                                     <textarea id="storyDescription" rows="5" class="form-control" name="terms" style="padding: 10px; border-radius: 8px;">{!! $data->terms !!}</textarea>
                                                 </div>
                                             </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label for="welcomeMessage" class="form-label" style="font-weight: bold;">About us</label>
+                                                    <textarea id="mission" rows="5" class="form-control" name="mission" style="padding: 10px; border-radius: 8px;">{!! $data->mission !!}</textarea>
+                                                </div>
+                                            </div>
                                     
                                             <!-- Additional Images -->
 

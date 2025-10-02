@@ -107,6 +107,7 @@ class SettingsController extends Controller
         $welcomeMessage = [];
         $terms = [];
         $WhyChooseUs = [];
+        $vision = [];
         $image1 = [];
         $image2 = [];
         $image3 = [];
@@ -127,6 +128,11 @@ class SettingsController extends Controller
         if ($data->terms != $request->input('terms')) {
             $data->terms = $request->input('terms');
             $terms[] = 'terms';
+        }
+    
+        if ($data->mission != $request->input('mission')) {
+            $data->mission = $request->input('mission');
+            $mission[] = 'mission';
         }
     
         if ($data->subTitle != $request->input('subTitle')) {

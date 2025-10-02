@@ -267,7 +267,7 @@
                                     <li><a href="{{ route('blogs') }}">Articles</a></li>
                                     <li>
                                     <li><a href="{{ route('gallery') }}">Gallery</a></li>
-                                    <li><a href="{{ route('gallery') }}">About Us</a></li>
+                                    <li><a href="{{ route('about') }}">About Us</a></li>
                                     <li>
                                         <a href="{{ route('connect') }}">Contacts</a>
                                     </li>
@@ -320,7 +320,7 @@
                             <div class="menu-all-pages-container">
                                 <ul class="menu">
 
-                                    <li><a href="{{route('home')}}">Home</a></li>
+                                    <li><a href="{{route('about')}}">About Us</a></li>
                                     <li><a href="{{ route('rooms') }}">Our Rooms</a></li>
                                     <li><a href="{{ route('facilities') }}">Hotel Facilities</a></li>
                                     <li><a href="{{ route('promotions') }}">Upcoming Activities</a></li>

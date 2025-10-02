@@ -48,11 +48,11 @@ class HomeController extends Controller
     }
 
     public function about(){
-        $programs = Program::with('posts')->oldest()->get();
+        $rooms = Room::oldest()->get();
         $setting = Setting::first();
         $about = About::first();
         return view('frontend.about',[
-            'programs'=>$programs,
+            'rooms'=>$rooms,
             'setting'=>$setting,
             'about'=>$about,
         ]);
