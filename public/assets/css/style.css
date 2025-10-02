@@ -90,7 +90,7 @@ Last Update: 20-07-2024
 :root {
   --theme-color: #1CA8CB;
   --primary-color: #1CA8CB;
-  --title-color: #113D48;
+  --title-color: #2F74B3;
   --body-color: #6E7070;
   --smoke-color: #E9F6F9;
   --smoke-color2: #F3F4F6;
@@ -99,7 +99,7 @@ Last Update: 20-07-2024
   --gray-color: #E1E4E5;
   --white-color: #ffffff;
   --light-color: #E1E4E5;
-  --yellow-color: #FFB539;
+  --yellow-color: #2F74B3;
   --success-color: #28a745;
   --error-color: #dc3545;
   --th-border-color: #E9EDF5;
@@ -7727,7 +7727,7 @@ ol.wp-block-rss {
 }
 
 .main-menu ul.sub-menu li a:before {
-  content: "\f5b0";
+  /* content: "\f5b0"; */
   position: absolute;
   top: 6px;
   left: 10px;
@@ -14011,7 +14011,7 @@ ul.comment-list:has(> .th-comment-item ~ .th-comment-item):first-child > .th-pos
   font-weight: 400;
   font-size: 80px;
   line-height: 110px;
-  color: #F8BC22;
+  color: rgb(255, 255, 255);
   display: block;
   /* Small devices */
 }

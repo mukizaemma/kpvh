@@ -4,50 +4,23 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Models\Blog;
-use App\Models\Plan;
-use App\Models\Post;
-use App\Models\Role;
 use App\Models\Room;
-use App\Models\Team;
-use App\Models\Tour;
 use App\Models\Trip;
-use App\Models\User;
 use App\Models\About;
-use App\Models\Event;
-use App\Models\Guest;
-use App\Models\Skill;
 use App\Models\Slide;
 use App\Models\Review;
-use App\Models\Country;
 use App\Models\Message;
 use App\Models\Program;
 use App\Models\Setting;
-use App\Models\Category;
 use App\Models\Facility;
-use App\Models\Eventpage;
 use App\Models\Promotion;
-use App\Models\Roomimage;
-use App\Models\Tourimage;
-use App\Models\Tripimage;
-use App\Mail\WelcomeEmail;
-use App\Models\Eventimage;
-use App\Models\Restaurant;
 use App\Models\Subscriber;
 use App\Models\BlogComment;
-use App\Models\Testimonial;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Models\Facilityimage;
 use Illuminate\Validation\Rule;
-use App\Mail\MessageNotification;
-use Spatie\MailcoachSdk\Mailcoach;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\BlogCommentsNotofications;
-use App\Mail\NewSubscriberNotification;
-use Illuminate\Support\Facades\Validator;
-use Spatie\Newsletter\Facades\Newsletter;
+
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 
 class HomeController extends Controller
@@ -182,21 +155,34 @@ class HomeController extends Controller
 public function gallery()
 {
     // Fetch images from both tables
-    $roomImages = \DB::table('roomimages')
+    $roomImages = \DB::table('rooms')
         ->select('image', 'created_at')
-        ->addSelect(DB::raw("'room' as type"))
+        ->addSelect(\DB::raw("'room' as type"))
         ->get();
 
-    $facilityImages = \DB::table('facilityimages')
+    $facilityImages = \DB::table('facilities')
         ->select('image', 'created_at')
         ->addSelect(\DB::raw("'facility' as type"))
         ->get();
 
     // Merge & sort by latest
-    $gallery = $roomImages
+    $merged = $roomImages
         ->merge($facilityImages)
         ->sortByDesc('created_at')
         ->values();
+
+    // Paginate manually
+    $perPage = 12;
+    $page = request()->get('page', 1);
+    $offset = ($page - 1) * $perPage;
+
+    $gallery = new LengthAwarePaginator(
+        $merged->slice($offset, $perPage)->values(),
+        $merged->count(),
+        $perPage,
+        $page,
+        ['path' => request()->url(), 'query' => request()->query()]
+    );
 
     $setting = Setting::first();
 
@@ -205,6 +191,7 @@ public function gallery()
         'setting' => $setting,
     ]);
 }
+
 
 
     public function terms(){
@@ -305,12 +292,12 @@ public function gallery()
         $articles = Blog::where('status', 'Published')->latest()->get();
         $latestBlogs = Blog::where('status', 'Published')->latest()->paginate(10);
         $setting = Setting::first();
-        $categories = Category::with('blogs')->oldest()->get();
+        $rooms = Room::oldest()->get();
         return view('frontend.blogs', [
             'articles' => $articles, 
             'latestBlogs' => $latestBlogs, 
             'setting' => $setting, 
-            'categories'=>$categories,
+            'rooms'=>$rooms,
         ]);
     }
 

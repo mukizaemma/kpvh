@@ -27,7 +27,7 @@
         <div class="container">
             <div class="row justify-content-center align-items-end flex-row-reverse">
                 <div class="col-lg-4">
-                    <div class="hero10-swiper-custom">
+                    {{-- <div class="hero10-swiper-custom">
                         <button data-slider-prev="#heroSlide10" class="swiper-button-next">
                             <img src="{{ asset('assets/img/icon/hero-arrow-right.svg') }}" alt="">
                         </button>
@@ -35,7 +35,7 @@
                         <button data-slider-next="#heroSlide10" class="swiper-button-prev">
                             <img src="{{ asset('assets/img/icon/hero-arrow-left.svg') }}" alt="">
                         </button>
-                    </div>
+                    </div> --}}
 
                     <!-- Dynamic Thumbnails -->
                     <div class="swiper hero10Thumbs" id="heroSlide11">

@@ -3,7 +3,7 @@
 @section('content')
 
     
-    <section class="th-blog-wrapper space-top space-extra-bottom">
+    <section class="th-blog-wrapper space-top space-extra-bottom bg-smoke">
         <div class="container">
             <div class="row">
                 <div class="col-xxl-8 col-lg-7">

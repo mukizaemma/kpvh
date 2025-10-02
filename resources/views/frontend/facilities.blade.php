@@ -5,11 +5,9 @@
     <!--==============================
     Breadcumb
 ============================== -->
-    <div class="breadcumb-wrapper " data-bg-src="{{ asset('storage/images/about') . $about->image1 }}" style="height: 550px; width: 70%; margin: 0 auto;">
-    {{-- <div class="breadcumb-wrapper " data-bg-src="{{ asset('storage/images/destinations/' .$destination->image) }}" style="height: 550px; margin: 20px auto;"> --}}
+    <div class="breadcumb-wrapper bg-smoke" data-bg-src="{{ asset('storage/images/about') . $about->image1 }}" style="height: 550px; width: 70%; margin: 0 auto;">
         <div class="container">
             <div class="breadcumb-content">
-                {{-- <h1 class="breadcumb-title">Activities for {{$destination->title  }}</h1> --}}
             </div>
         </div>
     </div>

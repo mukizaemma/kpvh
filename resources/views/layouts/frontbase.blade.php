@@ -69,11 +69,11 @@
    		Code Start From Here 
 	******************************** -->
 
-    <div class="cursor-follower"></div>
+    {{-- <div class="cursor-follower"></div> --}}
 
     <!-- slider drag cursor -->
-    <div class="slider-drag-cursor"><i class="fas fa-angle-left me-2"></i> DRAG <i class="fas fa-angle-right ms-2"></i>
-    </div>
+    {{-- <div class="slider-drag-cursor"><i class="fas fa-angle-left me-2"></i> DRAG <i class="fas fa-angle-right ms-2"></i>
+    </div> --}}
 
 
     <!--==============================
@@ -256,19 +256,20 @@
                                         </ul>
                                     </li>
                                     <li class="menu-item-has-children">
-                                        <a href="{{ route('facilities') }}">Hotel Facilities</a>
+                                        <a href="{{ route('facilities') }}">Facilities</a>
                                         <ul class="sub-menu">
                                             @foreach ($facilities as $facility)
                                                 <li><a href="{{ route('facility',['slug'=>$facility->slug]) }}">{{ $facility->title }}</a></li>
                                             @endforeach
                                         </ul>
                                     </li>
-                                    <li><a href="{{ route('promotions') }}">Upcoming Promotions</a></li>
+                                    <li><a href="{{ route('promotions') }}">Promotions</a></li>
                                     <li><a href="{{ route('blogs') }}">Articles</a></li>
                                     <li>
                                     <li><a href="{{ route('gallery') }}">Gallery</a></li>
+                                    <li><a href="{{ route('gallery') }}">About Us</a></li>
                                     <li>
-                                        <a href="{{ route('connect') }}">Contact us</a>
+                                        <a href="{{ route('connect') }}">Contacts</a>
                                     </li>
                                 </ul>
                             </nav>
@@ -307,10 +308,8 @@
                                 <p class="about-text">Where Lake Kivu meets warm hospitality</p>
                                 <div class="th-social">
                                     <a href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a>
-                                    <a href="https://www.twitter.com/"><i class="fab fa-twitter"></i></a>
-                                    <a href="https://www.linkedin.com/"><i class="fab fa-linkedin-in"></i></a>
-                                    <a href="https://www.whatsapp.com/"><i class="fab fa-whatsapp"></i></a>
                                     <a href="https://instagram.com/"><i class="fab fa-instagram"></i></a>
+                                    <a href="https://instagram.com/"><i class="fab fa-tiktok"></i></a>
                                 </div>
                             </div>
                         </div>

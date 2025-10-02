@@ -23,8 +23,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //View::share('facilities', Facility::oldest()->get());
-        //View::share('rooms', Room::oldest()->get());
-        //View::share('partners', Partner::oldest()->get());
+        View::share('facilities', Facility::oldest()->get());
+        View::share('rooms', Room::oldest()->get());
+        View::share('partners', Partner::oldest()->get());
     }
 }

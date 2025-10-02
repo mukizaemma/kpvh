@@ -3,8 +3,8 @@
 @section('content')
 
 
-<div class="breadcumb-wrapper" data-bg-src="{{ asset('storage/images/blogs/' .$blog->image) }}" style="height: 550px; width: 80%; margin: 20px auto; background-image: url('{{ asset('storage/images/trips/' .$blog->image) }}'); background-size: cover; background-position: center;">
-    <div class="container">
+<div class="breadcumb-wrapper " data-bg-src="{{ asset('storage/images/blogs/' .$blog->image) }}" style="height: 550px; width: 80%; margin: 20px auto; background-image: url('{{ asset('storage/images/trips/' .$blog->image) }}'); background-size: cover; background-position: center;">
+    <div class="container bg-smoke">
         <div class="breadcumb-content">
             <!-- Optional static content -->
         </div>
@@ -16,7 +16,7 @@
 <!--==============================
 Tour Area
 ==============================-->
-<section class="tour-area3 position-relative bg-top-center overflow-hidden space" id="service-sec" style="width: 80%; margin: 20px auto;">
+<section class="tour-area3 position-relative bg-top-center overflow-hidden space " id="service-sec" style="width: 80%; margin: 20px auto;">
     <div class="container">
         <div class="row">
             <!-- Main Content -->

@@ -3,7 +3,7 @@
 @section('content')
 
 
-    <div class="space">
+    <div class="space bg-smoke">
         <div class="container">
             <div class="title-area text-center">
                 <h2 class="sec-title">Our Contact Information</h2>
