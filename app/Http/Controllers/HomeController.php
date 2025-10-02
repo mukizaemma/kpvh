@@ -1,0 +1,403 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use DB;
+use App\Models\Blog;
+use App\Models\Plan;
+use App\Models\Post;
+use App\Models\Role;
+use App\Models\Room;
+use App\Models\Team;
+use App\Models\Tour;
+use App\Models\Trip;
+use App\Models\User;
+use App\Models\About;
+use App\Models\Event;
+use App\Models\Guest;
+use App\Models\Skill;
+use App\Models\Slide;
+use App\Models\Review;
+use App\Models\Country;
+use App\Models\Message;
+use App\Models\Program;
+use App\Models\Setting;
+use App\Models\Category;
+use App\Models\Facility;
+use App\Models\Eventpage;
+use App\Models\Promotion;
+use App\Models\Roomimage;
+use App\Models\Tourimage;
+use App\Models\Tripimage;
+use App\Mail\WelcomeEmail;
+use App\Models\Eventimage;
+use App\Models\Restaurant;
+use App\Models\Subscriber;
+use App\Models\BlogComment;
+use App\Models\Testimonial;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\Facilityimage;
+use Illuminate\Validation\Rule;
+use App\Mail\MessageNotification;
+use Spatie\MailcoachSdk\Mailcoach;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\BlogCommentsNotofications;
+use App\Mail\NewSubscriberNotification;
+use Illuminate\Support\Facades\Validator;
+use Spatie\Newsletter\Facades\Newsletter;
+
+
+class HomeController extends Controller
+{
+    public function index(Request $request)
+    {
+
+        $setting = Setting::first();
+        $slides = Slide::oldest()->get();
+        $about = About::first();
+        $rooms = Room::oldest()->get();
+        $blogs = Blog::latest()->paginate(9);
+        $facilities = Facility::with('images')->oldest()->get();
+
+        return view('frontend.home',[
+            'setting'=>$setting,
+            'slides'=>$slides,
+            'about'=>$about,
+            'rooms'=>$rooms,
+            'blogs'=>$blogs,
+            'facilities'=>$facilities,
+            
+        ]);
+
+    }
+
+    public function about(){
+        $programs = Program::with('posts')->oldest()->get();
+        $setting = Setting::first();
+        $about = About::first();
+        return view('frontend.about',[
+            'programs'=>$programs,
+            'setting'=>$setting,
+            'about'=>$about,
+        ]);
+    }
+
+    public function rooms(){
+        $facility = Facility::where('title','Accommodation')->firstOrFail();
+        $rooms = Room::with('amenities')->oldest()->get();
+        $setting = Setting::first();
+        $about = About::first();
+        return view('frontend.rooms',[
+            'facility'=>$facility,
+            'rooms'=>$rooms,
+            'setting'=>$setting,
+            'about'=>$about,
+        ]);
+    }
+
+    public function room($slug){
+        $room = Room::with('amenities')->where('slug', $slug)->firstOrFail();
+        $amenities = $room->amenities;
+        $images = $room->images;
+        $allRooms = Room::where('id','!=',$room->id)->get();
+        $setting = Setting::first();
+        $about = About::first();
+        return view('frontend.room',[
+            'room'=>$room,
+            'images'=>$images,
+            'amenities'=>$amenities,
+            'allRooms'=>$allRooms,
+            'setting'=>$setting,
+            'about'=>$about,
+        ]);
+    }
+
+    public function facilities(){
+        $facilities = Facility::with('images')->oldest()->get();
+        $setting = Setting::first();
+        $about = About::first();
+        return view('frontend.facilities',[
+            'facilities'=>$facilities,
+            'setting'=>$setting,
+            'about'=>$about,
+        ]);
+    }
+
+    public function facility($slug){
+        $facility = Facility::with('images')->where('slug', $slug)->firstOrFail();
+
+        $images = $facility->images;
+        $allFacilities = Facility::where('id','!=',$facility->id)->get();
+        $facilities = Facility::all();
+        $setting = Setting::first();
+        $about = About::first();
+        return view('frontend.facility',[
+            'facility'=>$facility,
+            'images'=>$images,
+            'allFacilities'=>$allFacilities,
+            'facilities'=>$facilities,
+            'setting'=>$setting,
+            'about'=>$about,
+        ]);
+    }
+
+
+    public function promotions(){
+        $promotions = Promotion::oldest()->get();
+        $setting = Setting::first();
+        $about = About::first();
+        return view('frontend.promotions',[
+            'promotions'=>$promotions,
+            'about'=>$about,
+            'setting'=>$setting,
+        ]);
+    }
+
+        public function promotion($slug){
+        $promotion = Promotion::where('slug', $slug)->firstOrFail();
+        $allPromotions = Promotion::where('id','!=',$promotion->id)->get();
+
+        $setting = Setting::first();
+        $about = About::first();
+        return view('frontend.promotion',[
+            'promotion'=>$promotion,
+            'allPromotions'=>$allPromotions,
+            'setting'=>$setting,
+            'about'=>$about,
+        ]);
+    }
+
+    public function events(){
+        $event = Eventpage::with('images')->first();
+        $images = $event->images;
+        return view('frontend.events',[
+            'event'=>$event,
+            'images'=>$images,
+        ]);
+    }
+
+public function gallery()
+{
+    // Fetch images from both tables
+    $roomImages = \DB::table('roomimages')
+        ->select('image', 'created_at')
+        ->addSelect(DB::raw("'room' as type"))
+        ->get();
+
+    $facilityImages = \DB::table('facilityimages')
+        ->select('image', 'created_at')
+        ->addSelect(\DB::raw("'facility' as type"))
+        ->get();
+
+    // Merge & sort by latest
+    $gallery = $roomImages
+        ->merge($facilityImages)
+        ->sortByDesc('created_at')
+        ->values();
+
+    $setting = Setting::first();
+
+    return view('frontend.gallery', [
+        'gallery' => $gallery,
+        'setting' => $setting,
+    ]);
+}
+
+
+    public function terms(){
+        $rooms = Room::all();
+        $trips = Trip::all();
+        $setting = Setting::first();
+        $about = About::first();
+        return view('frontend.terms',[
+            'setting'=>$setting,
+            'about'=>$about,
+            'rooms'=>$rooms,
+            'trips'=>$trips,
+        ]);
+    }
+
+    public function bookNow(){
+        $programs = Program::with('posts')->oldest()->get();
+        $setting = Setting::first();
+        $about = About::first();
+        return view('frontend.book',[
+            'programs'=>$programs,
+            'setting'=>$setting,
+            'about'=>$about,
+        ]);
+    }
+
+    public function tours(){
+        $tours = Trip::oldest()->get();
+        $setting = Setting::first();
+        $about = About::first();
+        return view('frontend.tours',[
+            'tours'=>$tours,
+            'setting'=>$setting,
+            'about'=>$about,
+        ]);
+    }
+
+    public function tour($slug){
+        $tour = Trip::with('images')->where('slug',$slug)->firstOrFail();
+        $images = $tour->images ?? collect();
+        $tours = Trip::where('id','!=',$tour->id)->oldest()->get();
+        $allTrips = Trip::all();
+        $setting = Setting::first();
+        $about = About::first();
+        return view('frontend.tour',[
+            'tour'=>$tour,
+            'images'=>$images,
+            'tours'=>$tours,
+            'allTrips'=>$allTrips,
+            'setting'=>$setting,
+            'about'=>$about,
+        ]);
+    }
+
+    public function connect(){
+
+        $setting = Setting::first();
+        $about = About::first();
+        return view('frontend.contact',[
+
+            'setting'=>$setting,
+            'about'=>$about,
+        ]);
+    }
+
+
+    public function singleBlog($slug) {
+        $blog = Blog::where('slug', $slug)->firstOrFail();
+        $latestBlogs = Blog::where('status', 'Published')->where('id', '!=',$blog->id)->latest()->paginate(10);
+
+        $setting = Setting::first();
+
+        if ($blog) {
+            $blog->increment('views');
+            $comments = BlogComment::where('status','Published')->latest()->get();
+            $commentsCount = $comments->count();
+
+            $relatedBlogs = Blog::where('id', '!=', $blog->id)
+                                    ->where('status', 'Published')
+                                    ->take(5) 
+                                    ->get();
+        } else {
+
+            return redirect()->route('blogs')->with('error', 'Article not found');
+        }
+    
+
+        return view('frontend.blog', [
+            'blog' => $blog, 
+            'latestBlogs' => $latestBlogs, 
+            'comments' => $comments, 
+            'commentsCount' => $commentsCount, 
+            'setting' => $setting, 
+            'relatedBlogs'=>$relatedBlogs,
+        ]);
+    }
+    public function blogs() {
+        $articles = Blog::where('status', 'Published')->latest()->get();
+        $latestBlogs = Blog::where('status', 'Published')->latest()->paginate(10);
+        $setting = Setting::first();
+        $categories = Category::with('blogs')->oldest()->get();
+        return view('frontend.blogs', [
+            'articles' => $articles, 
+            'latestBlogs' => $latestBlogs, 
+            'setting' => $setting, 
+            'categories'=>$categories,
+        ]);
+    }
+
+
+    public function subscribe(Request $request) {
+        $request->validate([
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('subscribers', 'email'),
+            ],
+        ]);
+
+        $email = $request->input('email');
+
+        $subscribed = Subscriber::create([
+            'email' => $email,
+        ]);
+
+
+        if($subscribed){
+            //$subscriber = Subscriber::where('email', $email)->firstOrFail();
+            //Mail::to("mukizaemma34@gmail.com")->send(new NewSubscriberNotification($subscriber));
+    
+            return redirect()->back()->with('success', 'Thank you for subscribing to Isange Paradise Resort, we will get back to you');
+        }
+
+        else{
+            return redirect()->back()->with('error', 'Something Went Wrong. Try again later!');
+        }        
+    
+    }
+   
+
+    public function sendMessage(Request $request) {
+        $validatedData = $request->validate([
+            'names' => 'required|string',
+            'email' => 'required|email',
+            'subject' => 'required|string',
+            'message' => 'required|string',
+        ]);
+    
+        // Now create the message with the validated data
+        $message = Message::create($validatedData);  // Pass validated data
+    
+        // Mail::to("mukizaemma34@gmail.com")->send(new MessageNotification($message));
+    
+        return redirect()->back()->with('success', 'Thank you for reaching out... we will get back to you soon');
+    }
+    
+    
+
+    public function testimony(Request $request){
+
+        $review = Review::create([
+            'names' => $request->input('names'),
+            'email' => $request->input('email'),
+            'testimony' => $request->input('testimony'),
+        ]);
+    
+        if (!$review) {
+            return redirect()->back()->with('error', 'Failed to submit your testimony. Please try again.');
+        }
+    
+        return redirect()->back()->with('success', 'Your testimony has submitted successfully!');
+    }
+
+    public function sendComment(Request $request) {
+        $user = auth()->user();
+    
+        $comment = BlogComment::create([
+            'blog_id' => $request->input('blog_id'),
+            'names' => $request->input('names'),
+            'email' => $request->input('email'),
+            'comment' => $request->input('comment'),
+            'user_id' => $user ? $user->id : null,
+        ]);
+    
+        if ($comment) {
+            // Mail::to('mukizaemma34@gmail.com')->send(new BlogCommentsNotofications($comment));
+            return redirect()->back()->with('success', 'Comment added successfully');
+        }
+    
+        else{
+            return redirect()->back()->with('error', 'Failed to add the comment. Please try again.');
+        }
+    }
+
+
+}
