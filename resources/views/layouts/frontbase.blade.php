@@ -403,7 +403,7 @@
                     <div class="col-md-6 text-end d-none d-md-block">
                         <div class="footer-card">
                             <span class="title">We Accept</span>
-                            <img src="assets/img/shape/cards.png" alt="">
+                            <img src="{{ asset('storage/images') . $setting->donate }}" alt="">
                         </div>
                     </div>
                 </div>

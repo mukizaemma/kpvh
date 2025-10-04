@@ -73,10 +73,10 @@ Tour Area
                             @foreach ($latestBlogs as $blog)
                             <div class="recent-post">
                                 <div class="media-img">
-                                    <a href="{{ route('article',['slug'=>$blog->slug]) }}"><img src="{{ asset('storage/images/blogs/' .$blog->image) }}" alt="Blog Image"></a>
+                                    <a href="{{ route('singleBlog',['slug'=>$blog->slug]) }}"><img src="{{ asset('storage/images/blogs/' .$blog->image) }}" alt="Blog Image"></a>
                                 </div>
                                 <div class="media-body">
-                                    <h4 class="post-title"><a class="text-inherit" href="{{ route('article',['slug'=>$blog->slug]) }}">{{ $blog->title }}</a></h4>
+                                    <h4 class="post-title"><a class="text-inherit" href="{{ route('singleBlog',['slug'=>$blog->slug]) }}">{{ $blog->title }}</a></h4>
                                 </div>
                             </div>
                             @endforeach
