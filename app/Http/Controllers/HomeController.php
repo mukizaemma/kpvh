@@ -33,7 +33,7 @@ class HomeController extends Controller
         $about = About::first();
         $rooms = Room::oldest()->get();
         $blogs = Blog::latest()->paginate(9);
-        $facilities = Facility::with('images')->oldest()->get();
+        $facilities = Facility::with('images')->oldest()->take(3)->get();
 
         return view('frontend.home',[
             'setting'=>$setting,

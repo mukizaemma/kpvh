@@ -1,6 +1,6 @@
 <!doctype html>
 <html class="no-js" lang="zxx">
-
+<base href="/public">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -310,6 +310,10 @@
                                     <a href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a>
                                     <a href="https://instagram.com/"><i class="fab fa-instagram"></i></a>
                                     <a href="https://instagram.com/"><i class="fab fa-tiktok"></i></a>
+                                </div>
+
+                                <div class="destination-btn text-center mt-60">
+                                    <a href="{{ route('connect') }}" class="th-btn style3 th-icon">Book Your Stay Now</a>
                                 </div>
                             </div>
                         </div>

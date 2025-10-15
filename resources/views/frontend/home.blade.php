@@ -201,45 +201,48 @@ Facilities Area
 
     <section class="position-relative bg-smoke overflow-hidden space" id="destination-sec">
         <div class="container">
-            <div class="title-area text-center text-xl-start">
-                <h2 class="sec-title">Our Special Services</h2>
-            </div>
-            <div class="slider-area">
-                <div class="swiper th-slider has-shadow" data-slider-options='{"breakpoints":{"0":{"slidesPerView":1},"576":{"slidesPerView":"1"},"768":{"slidesPerView":"2"},"992":{"slidesPerView":"2"},"1200":{"slidesPerView":"3"},"1300":{"slidesPerView":"4"}}}'>
-                    <div class="swiper-wrapper">
-                        @foreach ($facilities as $facility)
-                        <div class="swiper-slide">
-                            <div class="destination-item4 th-ani">
-                                <div class="destination-item4_img global-img" data-mask-src="assets/img/destination/shape.png">
-                                    <img src="{{ asset('storage/images/facilities/' . $facility->image) }}" alt="image">
+            <h2 class="box-title text-center text-dark">Hotel Facilities </h2>
+            <div class="row">
+                <div class="col-12">
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade active show" id="tab-grid" role="tabpanel" aria-labelledby="tab-destination-grid">
+                            <div class="row gy-30">
+
+                                @foreach ($facilities as $facility)
+                                <div class="col-xxl-4 col-xl-4 col-sm-12">
+                                    <div class="tour-box th-ani">
+                                        <div class="tour-box_img global-img">
+                                            <img src="{{ asset('storage/images/facilities/' .$facility->image) }}" alt="image" style="height: 300px !important;">
+                                        </div>
+                                        <div class="tour-content">
+                                        <div class="flex items-center justify-between">
+                                                <h3 class="box-title">
+                                                    <a href="{{ route('facility',['slug'=>$facility->slug]) }}">{{ $facility->title }}</a>
+                                                </h3>
+                                            </div>
+                                            <div class="tour-rating">
+                                              <p>{{ \Illuminate\Support\Str::limit(strip_tags($facility->description), 150) }}</p>
+                                            </div>
+                                            <div class="tour-action">
+                                                <a href="{{route('facility',['slug'=>$facility->slug])}}" class="th-btn style4 th-icon">View Details</a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="destination-content">
-                                    <h3 class="box-title"><a href="{{ route('facility',['slug'=>$facility->slug]) }}"><img src="assets/img/icon/location-dot4.svg" alt="">{{ $facility->title }}</a></h3>
-                                </div>
-                                <a href="{{ route('facility',['slug'=>$facility->slug]) }}" class="icon-btn"><img src="assets/img/icon/left-arrow4.svg" alt=""></a>
+                                @endforeach
+
+
+                            <div class="destination-btn text-center mt-60">
+                                <a href="{{ route('facilities') }}" class="th-btn style3 th-icon">View All</a>
+                            </div>
+
                             </div>
                         </div>
-                        @endforeach
-
-
 
                     </div>
+
                 </div>
-            </div>
-            <div class="destination-btn text-center mt-60">
-                <a href="{{ route('facilities') }}" class="th-btn style3 th-icon">View All</a>
-            </div>
-            <div class="shape-mockup movingX d-none d-xl-block" data-top="8%" data-left="-15%">
-                <img src="assets/img/shape/shape_2_1.png" alt="shape">
-            </div>
-            <div class="shape-mockup jump d-none d-xl-block" data-top="23%" data-right="-14%">
-                <img src="assets/img/shape/shape_2_2.png" alt="shape">
-            </div>
-            <div class="shape-mockup spin d-none d-xl-block" data-bottom="21%" data-left="-14%">
-                <img src="assets/img/shape/shape_2_3.png" alt="shape">
-            </div>
-            <div class="shape-mockup movingX d-none d-xl-block" data-bottom="12%" data-right="-14%">
-                <img src="assets/img/shape/shape_2_4.png" alt="shape">
+
             </div>
         </div>
 
@@ -278,7 +281,7 @@ Blog Area
                                                 {{ $blog->created_at->format('M d Y') }}
                                             </a>
                                             <a href="{{ route('singleBlog',['slug'=>$blog->slug]) }}">
-                                                {{ ceil(str_word_count(strip_tags($blog->content)) / 200) }} min read
+                                                {{ ceil(str_word_count(strip_tags($blog->body)) / 200) }} min read
                                             </a>
                                         </div>
                                         <h3 class="box-title">

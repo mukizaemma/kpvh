@@ -13,7 +13,7 @@
         <div class="flex items-center justify-center bg-gray-100 p-6">
             <x-authentication-card class="w-full max-w-md shadow-xl rounded-2xl bg-white p-6">
                 <x-slot name="logo">
-                    <h1 class="text-2xl font-bold text-center">KPVH Admin Pannel</h1>
+                    <h1 class="text-2xl font-bold text-center">KPVH Admin Panel</h1>
                 </x-slot>
 
                 <x-validation-errors class="mb-4" />
