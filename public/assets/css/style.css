@@ -11213,14 +11213,14 @@ ul.comment-list:has(> .th-comment-item ~ .th-comment-item):first-child > .th-pos
 }
 
 .hero-1 .th-hero-bg {
-  z-index: 2;
+  z-index: 1;
 }
 
 .hero-1 .th-hero-bg:before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(13, 13, 12, 0.5);
+  background: rgba(13, 13, 12, 0.144);
   mix-blend-mode: normal;
   z-index: -1;
 }

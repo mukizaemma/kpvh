@@ -11,6 +11,7 @@ use App\Models\Slide;
 use App\Models\Review;
 use App\Models\Message;
 use App\Models\Program;
+use App\Models\Reservation;
 use App\Models\Setting;
 use App\Models\Facility;
 use App\Models\Promotion;
@@ -207,16 +208,28 @@ public function gallery()
         ]);
     }
 
-    public function bookNow(){
-        $programs = Program::with('posts')->oldest()->get();
-        $setting = Setting::first();
-        $about = About::first();
-        return view('frontend.book',[
-            'programs'=>$programs,
-            'setting'=>$setting,
-            'about'=>$about,
-        ]);
+public function bookNow(Request $request)
+{
+    $booking = \App\Models\Reservation::create([
+        'room_id'     => $request->room_id,
+        'facility_id' => $request->facility_id,
+        'nights'      => $request->nights,
+        'guests'      => $request->guests,
+        'message'     => $request->message,
+        'names'       => $request->names,
+        'email'       => $request->email,
+        'phone'       => $request->phone,
+        'status'      => 'pending',
+    ]);
+
+    if ($booking) {
+        return redirect()->back()->with('success', '✅ Your booking request has been received! We’ll contact you soon to confirm availability.');
+    } else {
+        return redirect()->back()->with('error', '❌ Sorry, your booking could not be submitted. Please try again.');
     }
+}
+
+
 
     public function tours(){
         $tours = Trip::oldest()->get();
@@ -247,13 +260,16 @@ public function gallery()
     }
 
     public function connect(){
-
+        $rooms = Room::latest()->get();
+        $facilities = Facility::latest()->get();
         $setting = Setting::first();
         $about = About::first();
         return view('frontend.contact',[
 
             'setting'=>$setting,
             'about'=>$about,
+            'rooms'=>$rooms,
+            'facilities'=>$facilities,
         ]);
     }
 

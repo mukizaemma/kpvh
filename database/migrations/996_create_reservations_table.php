@@ -21,12 +21,14 @@ return new class extends Migration
             $table->date('date_in')->nullable();
             $table->date('date_out')->nullable();
             $table->integer('guests')->nullable();
-            $table->enum('status', ['pending', 'confirmed', 'cancelled','No Show'])->default('pending');
+            $table->integer('nights')->nullable();
+            $table->longText('message')->nullable();
+            $table->enum('status', ['Pending', 'Confirmed','Scam', 'Cancelled','No Show'])->default('pending');
 
             $table->unsignedBigInteger('room_id')->nullable();
-            $table->unsignedBigInteger('trip_id')->nullable();
+            $table->unsignedBigInteger('facility_id')->nullable();
             $table->foreign("room_id")->references("id")->on("rooms")->onDelete("cascade");
-            $table->foreign("trip_id")->references("id")->on("trips")->onDelete("cascade");
+            $table->foreign("facility_id")->references("id")->on("facilities")->onDelete("cascade");
             $table->softDeletes();
             $table->timestamps();
         });

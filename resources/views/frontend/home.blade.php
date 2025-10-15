@@ -11,13 +11,13 @@ Hero Area
     <!--==============================
 About Area  
 ==============================-->
-    <div class="about-area position-relative overflow-hidden space-bottom mt-10" id="about-sec">
+    <div class="about-area position-relative overflow-hidden space-bottom mt-50" id="about-sec">
         <div class="container">
             <div class="row gy-4">
                 <div class="col-xl-6">
                     <div class="img-box10">
                         <div class="img1">
-                            <img src="{{ asset('storage/images/about') . $about->image1 }}" alt="About">
+                            <img src="{{ asset('storage/images/about') . $about->image1 }}" alt="About" style="max-height: 450px">
                         </div>
                         {{-- <div class="about-shape2"></div> --}}
                     </div>
@@ -85,7 +85,7 @@ Rooms Area
                                         </div>
                                         <div class="tour-content">
                                             <h3 class="box-title">
-                                                <a href="{{ route('rooms', $room->id) }}">{{ $room->title }}</a>
+                                                <a href="{{ route('room',['slug'=>$room->slug]) }}">{{ $room->title }}</a>
                                             </h3>
 
                                             {{-- <p class="text-sm text-gray-600 mb-2">
@@ -98,7 +98,7 @@ Rooms Area
 
                                             <div class="tour-action">
                                                 <span><i class="fa-light fa-bed"></i> {{ $room->beds ?? '1' }} Beds</span>
-                                                <a href="{{ route('rooms', $room->id) }}" class="th-btn style4 th-icon">View Details</a>
+                                                <a href="{{ route('room',['slug'=>$room->slug]) }}" class="th-btn style4 th-icon">View Details</a>
                                             </div>
                                         </div>
                                     </div>

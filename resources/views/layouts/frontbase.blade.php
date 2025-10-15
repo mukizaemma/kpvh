@@ -8,7 +8,7 @@
     <meta name="author" content="KPVH">
     <meta name="description" content="Kivu Peace View Hotel is the best destination to make your stay memorable in Rubavu.">
     <meta name="keywords" content="{{ $setting->keywords ?? '' }} ">
-    <meta name="robots" content="INDEX,FOLLOW">
+    <meta name="robots" content="KIvu Peace View Hotel">
 
     <!-- Mobile Specific Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -23,13 +23,13 @@
     <link rel="apple-touch-icon" sizes="144x144" href="assets/img/favicons/apple-icon-144x144.png">
     <link rel="apple-touch-icon" sizes="152x152" href="assets/img/favicons/apple-icon-152x152.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="assets/img/favicons/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicons/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('storage/images') . $setting->logo }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('storage/images') . $setting->logo }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('storage/images') . $setting->logo }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('storage/images') . $setting->logo }}">
     <link rel="manifest" href="assets/img/favicons/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="assets/img/favicons/ms-icon-144x144.png">
+    <meta name="msapplication-TileImage" content="{{ asset('storage/images') . $setting->logo }}">
     <meta name="theme-color" content="#ffffff">
 
     <!--==============================
@@ -64,7 +64,32 @@
 
 <body>
 
+    @if (session('success'))
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: '{{ session('success') }}',
+                    confirmButtonColor: '#25D366'
+                });
+            });
+        </script>
+    @endif
 
+    @if (session('error'))
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops!',
+                    text: '{{ session('error') }}',
+                    confirmButtonColor: '#d33'
+                });
+            });
+        </script>
+    @endif
+    
     <!--********************************
    		Code Start From Here 
 	******************************** -->
@@ -543,8 +568,9 @@ modal Area
 
     <!-- Main Js File -->
     <script src="assets/js/main.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        <a href="https://wa.me/250788907201" target="_blank" class="whatsapp-float">
+        <a href="https://wa.me/250788316330" target="_blank" class="whatsapp-float">
         <i class="fab fa-whatsapp"></i>
     </a>
 </body>

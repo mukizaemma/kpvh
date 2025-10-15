@@ -175,6 +175,6 @@ Route::post('/subscribe', [App\Http\Controllers\HomeController::class, 'subscrib
 
 Route::post('/sendMessage', [App\Http\Controllers\HomeController::class, 'sendMessage'])->name('sendMessage');
 Route::post('/sendComment', [App\Http\Controllers\HomeController::class, 'sendComment'])->name('sendComment');
-Route::post('/registerNow', [App\Http\Controllers\HomeController::class, 'registerNow'])->name('registerNow');
+Route::post('/book-now', [App\Http\Controllers\HomeController::class, 'bookNow'])->name('bookNow');
 Route::post('/testimony', [App\Http\Controllers\HomeController::class, 'testimony'])->name('testimony');
 
