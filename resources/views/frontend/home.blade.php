@@ -8,6 +8,16 @@ Hero Area
 ==============================-->
 @include('frontend.includes.slide')
 
+
+    <section class="category-area7 space space-extra-bottom">
+        <div class="container">
+            <div class="row justify-content-xl-between justify-content-center align-items-end">
+
+            </div>
+        </div>
+    </section>
+
+
     <!--==============================
 About Area  
 ==============================-->
