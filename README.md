@@ -1,5 +1,5 @@
 
-## Isange Paradise
+## Kivu Peace View Hotel
 
 
 - Global Jobs Placement

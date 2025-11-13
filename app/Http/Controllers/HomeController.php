@@ -338,7 +338,7 @@ public function bookNow(Request $request)
             //$subscriber = Subscriber::where('email', $email)->firstOrFail();
             //Mail::to("mukizaemma34@gmail.com")->send(new NewSubscriberNotification($subscriber));
     
-            return redirect()->back()->with('success', 'Thank you for subscribing to Isange Paradise Resort, we will get back to you');
+            return redirect()->back()->with('success', 'Thank you for subscribing to Kivu Peace View Hotel Resort, we will get back to you');
         }
 
         else{

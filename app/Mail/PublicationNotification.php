@@ -19,7 +19,7 @@ class PublicationNotification extends Mailable
     }
 
     public function build(){
-        return $this->from('iremetechnologies@gmail.com', 'Isange Paradise')
+        return $this->from('iremetechnologies@gmail.com', 'Kivu Peace View Hotel')
         ->subject('New Update')
         ->view('emails.updatesNotifications')
         ->with($this->details);

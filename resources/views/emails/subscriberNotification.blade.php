@@ -20,7 +20,7 @@
     <p>For More Details,</p>
 
     <p>
-        <a href="https://Isange Paradise.org/login" target="_blank">Login to the Admin to View Subscribers</a>
+        <a href="https://Kivu Peace View Hotel.org/login" target="_blank">Login to the Admin to View Subscribers</a>
     </p>
 
 </body>

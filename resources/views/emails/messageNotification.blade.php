@@ -10,7 +10,7 @@
     <h1>New Message Notification</h1>
 
     <p>Hello,</p>
-    <p>A new message was sent from the Isange Paradise website:</p>
+    <p>A new message was sent from the Kivu Peace View Hotel website:</p>
 
     <ul>
         <li><strong>Names:</strong> {{ $message->names }}</li>
