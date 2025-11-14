@@ -389,37 +389,12 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="col-md-6 col-xl-auto">
+                    <div class="col-md-6 col-xl-auto">
                         <div class="widget footer-widget">
-                            <h3 class="widget_title">Instagram Post</h3>
-                            <div class="sidebar-gallery">
-                                <div class="gallery-thumb">
-                                    <img src="assets/img/widget/gallery_1_1.jpg" alt="Gallery Image">
-                                    <a target="_blank" href="https://www.instagram.com/" class="gallery-btn"><i class="fab fa-instagram"></i></a>
-                                </div>
-                                <div class="gallery-thumb">
-                                    <img src="assets/img/widget/gallery_1_2.jpg" alt="Gallery Image">
-                                    <a target="_blank" href="https://www.instagram.com/" class="gallery-btn"><i class="fab fa-instagram"></i></a>
-                                </div>
-                                <div class="gallery-thumb">
-                                    <img src="assets/img/widget/gallery_1_3.jpg" alt="Gallery Image">
-                                    <a target="_blank" href="https://www.instagram.com/" class="gallery-btn"><i class="fab fa-instagram"></i></a>
-                                </div>
-                                <div class="gallery-thumb">
-                                    <img src="assets/img/widget/gallery_1_4.jpg" alt="Gallery Image">
-                                    <a target="_blank" href="https://www.instagram.com/" class="gallery-btn"><i class="fab fa-instagram"></i></a>
-                                </div>
-                                <div class="gallery-thumb">
-                                    <img src="assets/img/widget/gallery_1_5.jpg" alt="Gallery Image">
-                                    <a target="_blank" href="https://www.instagram.com/" class="gallery-btn"><i class="fab fa-instagram"></i></a>
-                                </div>
-                                <div class="gallery-thumb">
-                                    <img src="assets/img/widget/gallery_1_6.jpg" alt="Gallery Image">
-                                    <a target="_blank" href="https://www.instagram.com/" class="gallery-btn"><i class="fab fa-instagram"></i></a>
-                                </div>
-                            </div>
+                            <h3 class="widget_title">Our Location</h3>
+                           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.05495157978!2d29.26653097496646!3d-1.7035254982807158!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19dd0546072d473f%3A0x2ede93179b2816df!2sKivu%20Peace%20View%20Hotel%2FGisenyi!5e0!3m2!1sen!2srw!4v1763106165245!5m2!1sen!2srw" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
-                    </div> --}}
+                    </div> 
                 </div>
             </div>
         </div>
