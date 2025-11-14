@@ -19,6 +19,7 @@ use App\Models\Subscriber;
 use App\Models\BlogComment;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -400,6 +401,14 @@ public function bookNow(Request $request)
         else{
             return redirect()->back()->with('error', 'Failed to add the comment. Please try again.');
         }
+    }
+
+        public function logouts()
+    {
+        Auth::logout();                       // logout the user
+        session()->invalidate();              // invalidate the session
+        session()->regenerateToken();         // regenerate CSRF token
+        return redirect()->route('home');            // redirect to login page
     }
 
 

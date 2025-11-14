@@ -24,44 +24,54 @@
 
                     </div>
                     <div class="table-responsive">
-                        <table class="table text-start align-middle table-bordered table-hover mb-0">
-                            <thead>
-                                <tr class="text-dark">
-                                    <th scope="col"><input class="form-check-input" type="checkbox"></th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Subject</th>
-                                    <th scope="col">Names</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col" style="width:300px">Message</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($messages as $rs)
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>{{ $rs->created_at }}</td>
-                                    <td>{{ $rs->subject }} </td>
-                                    <td>{{ $rs->names}}</td>
-                                    <td>{{ $rs->email }}</td>
-                                    <td>{{ $rs->message }}</td>
-                                    <td>
-                                        <div class="btn-btn-group ">
-                                            <a type="button" href="{{ route('deleteMessages', $rs->id) }}"
-                                                class="btn btn-danger text-black" onclick="return confirm('Are you sure to delete this item?')">Delete</a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="7">
-                                        {{ $messages->links() }}
-                                    </td>
-                                </tr>
-                            </tfoot>
-                        </table>
+<table class="table text-start align-middle table-bordered table-hover mb-0">
+    <thead>
+        <tr class="text-dark">
+            <th scope="col"><input class="form-check-input" type="checkbox"></th>
+            <th scope="col">Date</th>
+            <th scope="col">Room</th>
+            <th scope="col">Names</th>
+            <th scope="col">Email</th>
+            <th scope="col" style="width:300px">Message</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach($reservations as $reservation)
+        <tr>
+            <td><input class="form-check-input" type="checkbox"></td>
+
+            <td>{{ $reservation->created_at->format('Y-m-d H:i') }}</td>
+
+            <td>
+                {{ $reservation->room ? $reservation->room->title : 'N/A' }}
+            </td>
+
+            <td>{{ $reservation->names }}</td>
+            <td>{{ $reservation->email }}</td>
+            <td>{{ $reservation->message }}</td>
+
+            <td>
+                <a href="{{ route('deleteReservation', $reservation->id) }}"
+                    class="btn btn-danger text-black"
+                    onclick="return confirm('Are you sure you want to delete this reservation?')">
+                    Delete
+                </a>
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+
+    <tfoot>
+        <tr>
+            <td colspan="7">
+                {{ $reservations->links() }}
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
                     </div>
                 </div>
             </div>

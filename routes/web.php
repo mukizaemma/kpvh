@@ -19,7 +19,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/Subscribers/{id}', [App\Http\Controllers\AdminController::class, 'destroySub'])->name('destroySub');
 
     Route::get('/getMessages', [App\Http\Controllers\AdminController::class, 'getMessages'])->name('getMessages');
-    Route::get('/deleteMessages/{id}', [App\Http\Controllers\AdminController::class, 'deleteMessages'])->name('deleteMessages');
+    Route::get('/deleteReservation/{id}', [App\Http\Controllers\AdminController::class, 'deleteReservation'])->name('deleteReservation');
 
     
     Route::get('/setting',[App\Http\Controllers\SettingsController::class,'setting'])->name('setting');

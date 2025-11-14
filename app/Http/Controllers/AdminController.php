@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\CommentApprovalNotification;
 use App\Models\BlogComment;
-use App\Models\Message;
+use App\Models\Reservation;
 
 class AdminController extends Controller
 {
@@ -135,17 +135,17 @@ class AdminController extends Controller
             ->with('success', 'Subscriber deleted successfully');
     }
     public function getMessages(){
-        $messages = Message::latest()->paginate(10);
+        $reservations = Reservation::latest()->paginate(10);
         return view('admin.posts.messages',[
-            'messages'=>$messages,
+            'reservations'=>$reservations,
         ]);
     }
 
     
-    public function deleteMessages($id)
+    public function deleteReservation($id)
     {
-        $subscriber = Message::find($id); 
-        $subscriber->delete($id);
+        $reservation = Reservation::find($id); 
+        $reservation->delete($id);
         return back()
             ->with('success', 'Message deleted successfully');
     }
