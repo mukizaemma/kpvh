@@ -64,13 +64,25 @@
 
 <body>
 
-    @if (session('success'))
+    @if (session('whatsapp_url'))
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var whatsappUrl = @json(session('whatsapp_url'));
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Booking saved',
+                    html: @json(session('success')).replace(/\n/g, '<br>') + '<br><br><a href="' + whatsappUrl + '" target="_blank" rel="noopener">Open WhatsApp with your booking</a>',
+                    confirmButtonColor: '#25D366'
+                });
+            });
+        </script>
+    @elseif (session('success'))
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 Swal.fire({
                     icon: 'success',
                     title: 'Success!',
-                    text: '{{ session('success') }}',
+                    text: @json(session('success')),
                     confirmButtonColor: '#25D366'
                 });
             });
@@ -83,7 +95,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops!',
-                    text: '{{ session('error') }}',
+                    text: @json(session('error')),
                     confirmButtonColor: '#d33'
                 });
             });

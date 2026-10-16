@@ -11,7 +11,9 @@ use Illuminate\Http\Request;
 use App\Models\Articlecomment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use App\Mail\CommentApprovalNotification;
 use App\Models\BlogComment;
 use App\Models\Reservation;
@@ -58,11 +60,84 @@ class AdminController extends Controller
     public function deleteUser($id)
     {
         $post = User::findOrFail($id);
+        if ($post->email === 'admin@iremetech.com') {
+            return redirect()->back()->with('error', 'This admin account cannot be deleted.');
+        }
         $post->delete();
 
         return redirect()->back()->with('success', 'User has been deleted');
+    }
 
-    
+    public function storeAdmin(Request $request)
+    {
+        $this->ensureSuperAdmin();
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = new User();
+        $user->name = $validated['name'];
+        $user->email = $validated['email'];
+        $user->password = Hash::make($validated['password']);
+        $user->role = '1';
+        $user->user_id = (string) Str::uuid();
+        $user->status = 'Active';
+        $user->email_verified_at = now();
+        $user->save();
+
+        return redirect()->route('users')->with('success', 'New admin added. Share the password with them directly. No email was sent.');
+    }
+
+    public function password()
+    {
+        $setting = Setting::first();
+
+        return view('admin.password', [
+            'setting' => $setting,
+        ]);
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $validated = $request->validate([
+            'current_password' => 'required|string',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = $request->user();
+        if (!Hash::check($validated['current_password'], $user->password)) {
+            return redirect()->back()->with('error', 'The current password is incorrect.');
+        }
+
+        $user->password = Hash::make($validated['password']);
+        $user->save();
+
+        return redirect()->back()->with('success', 'Your password has been updated.');
+    }
+
+    public function resetUserPassword(Request $request, $id)
+    {
+        $this->ensureSuperAdmin();
+
+        $validated = $request->validate([
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = User::findOrFail($id);
+        $user->password = Hash::make($validated['password']);
+        $user->save();
+
+        return redirect()->route('users')->with('success', 'Password updated for '.$user->email.'.');
+    }
+
+    private function ensureSuperAdmin(): void
+    {
+        if (!auth()->check() || auth()->user()->email !== 'admin@iremetech.com') {
+            abort(403, 'Only the main admin can manage admin accounts.');
+        }
     }
 
 
@@ -135,9 +210,11 @@ class AdminController extends Controller
             ->with('success', 'Subscriber deleted successfully');
     }
     public function getMessages(){
-        $reservations = Reservation::latest()->paginate(10);
+        $reservations = Reservation::with(['room', 'facility'])->latest()->paginate(15);
+        $setting = Setting::first();
         return view('admin.posts.messages',[
             'reservations'=>$reservations,
+            'setting'=>$setting,
         ]);
     }
 

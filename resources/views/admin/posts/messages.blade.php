@@ -19,53 +19,67 @@
             <div class="container-fluid pt-4 px-4">
                 <div class="bg-light text-center rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">Recent Requests from Website</h6>
+                        <h6 class="mb-0">Reservations</h6>
                         <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search here" class="form-control" style="width: 200px;">
 
                     </div>
+                    @if (session('success'))
+                        <div class="alert alert-success text-start">{{ session('success') }}</div>
+                    @endif
                     <div class="table-responsive">
-<table class="table text-start align-middle table-bordered table-hover mb-0">
+<table class="table text-start align-middle table-bordered table-hover mb-0" id="reservationsTable">
     <thead>
         <tr class="text-dark">
-            <th scope="col"><input class="form-check-input" type="checkbox"></th>
             <th scope="col">Date</th>
-            <th scope="col">Room</th>
-            <th scope="col">Names</th>
+            <th scope="col">Guest</th>
+            <th scope="col">Phone</th>
             <th scope="col">Email</th>
-            <th scope="col" style="width:300px">Message</th>
+            <th scope="col">Room</th>
+            <th scope="col">Service</th>
+            <th scope="col">Stay</th>
+            <th scope="col">Request</th>
+            <th scope="col">Status</th>
             <th scope="col">Action</th>
         </tr>
     </thead>
 
     <tbody>
-        @foreach($reservations as $reservation)
+        @forelse($reservations as $reservation)
         <tr>
-            <td><input class="form-check-input" type="checkbox"></td>
-
             <td>{{ $reservation->created_at->format('Y-m-d H:i') }}</td>
-
-            <td>
-                {{ $reservation->room ? $reservation->room->title : 'N/A' }}
-            </td>
-
             <td>{{ $reservation->names }}</td>
-            <td>{{ $reservation->email }}</td>
-            <td>{{ $reservation->message }}</td>
-
+            <td>{{ $reservation->phone ?: '—' }}</td>
+            <td>{{ $reservation->email ?: '—' }}</td>
+            <td>{{ $reservation->room?->title ?? '—' }}</td>
+            <td>{{ $reservation->facility?->title ?? '—' }}</td>
             <td>
+                {{ $reservation->date_in ?: '—' }} to {{ $reservation->date_out ?: '—' }}
+                <br>
+                {{ $reservation->nights ?: '—' }} nights, {{ $reservation->guests ?: '—' }} guests
+            </td>
+            <td>{{ $reservation->message ?: '—' }}</td>
+            <td>{{ $reservation->status }}<br><small>{{ $reservation->channel ?: 'Website' }}</small></td>
+            <td>
+                @if($reservation->guestWhatsappLink())
+                    <a href="{{ $reservation->guestWhatsappLink() }}" target="_blank" rel="noopener" class="btn btn-success btn-sm mb-1">WhatsApp</a>
+                @endif
                 <a href="{{ route('deleteReservation', $reservation->id) }}"
-                    class="btn btn-danger text-black"
+                    class="btn btn-danger text-black btn-sm"
                     onclick="return confirm('Are you sure you want to delete this reservation?')">
                     Delete
                 </a>
             </td>
         </tr>
-        @endforeach
+        @empty
+        <tr>
+            <td colspan="10">No reservations yet.</td>
+        </tr>
+        @endforelse
     </tbody>
 
     <tfoot>
         <tr>
-            <td colspan="7">
+            <td colspan="10">
                 {{ $reservations->links() }}
             </td>
         </tr>
@@ -84,18 +98,15 @@
                 var input, filter, table, tr, td, i, txtValue;
                 input = document.getElementById("searchInput");
                 filter = input.value.toUpperCase();
-                table = document.getElementsByClassName("table")[0];
+                table = document.getElementById("reservationsTable");
                 tr = table.getElementsByTagName("tr");
         
-                for (i = 0; i < tr.length; i++) {
-                    td = tr[i].getElementsByTagName("td")[2]; // Change index to match the column you want to search
-                    if (td) {
-                        txtValue = td.textContent || td.innerText;
-                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                            tr[i].style.display = "";
-                        } else {
-                            tr[i].style.display = "none";
-                        }
+                for (i = 1; i < tr.length; i++) {
+                    txtValue = tr[i].textContent || tr[i].innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else if (tr[i].parentElement.tagName !== "TFOOT") {
+                        tr[i].style.display = "none";
                     }
                 }
             }

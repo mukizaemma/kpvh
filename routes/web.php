@@ -7,8 +7,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\AdminController::class, 'index'])->name('dashboard');
     Route::get('/logouts', [App\Http\Controllers\AdminController::class, 'logouts'])->name('logouts');
     Route::get('/Users', [App\Http\Controllers\AdminController::class, 'users'])->name('users');
+    Route::post('/Users', [App\Http\Controllers\AdminController::class, 'storeAdmin'])->name('storeAdmin');
+    Route::post('/Users/{id}/password', [App\Http\Controllers\AdminController::class, 'resetUserPassword'])->name('resetUserPassword');
     Route::get('/Users/{id}', [App\Http\Controllers\AdminController::class, 'makeAdmin'])->name('makeAdmin');
     Route::get('/deleteUser/{id}', [App\Http\Controllers\AdminController::class, 'deleteUser'])->name('deleteUser');
+    Route::get('/password', [App\Http\Controllers\AdminController::class, 'password'])->name('adminPassword');
+    Route::post('/password', [App\Http\Controllers\AdminController::class, 'updatePassword'])->name('adminPasswordUpdate');
 
  
     Route::get('/Comments', [App\Http\Controllers\AdminController::class, 'blogsComment'])->name('blogsComment');

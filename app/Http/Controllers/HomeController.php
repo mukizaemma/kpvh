@@ -20,6 +20,8 @@ use App\Models\BlogComment;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\QueryException;
+use Carbon\Carbon;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -209,25 +211,83 @@ public function gallery()
         ]);
     }
 
+public const WHATSAPP_NUMBER = '250788316330';
+
 public function bookNow(Request $request)
 {
-    $booking = \App\Models\Reservation::create([
-        'room_id'     => $request->room_id,
-        'facility_id' => $request->facility_id,
-        'nights'      => $request->nights,
-        'guests'      => $request->guests,
-        'message'     => $request->message,
-        'names'       => $request->names,
-        'email'       => $request->email,
-        'phone'       => $request->phone,
-        'status'      => 'pending',
+    $validated = $request->validate([
+        'names' => 'required|string|max:255',
+        'phone' => 'required|string|max:30',
+        'email' => 'nullable|email|max:255',
+        'room_id' => 'nullable|exists:rooms,id',
+        'facility_id' => 'nullable|exists:facilities,id',
+        'nights' => 'nullable|integer|min:1|max:365',
+        'guests' => 'nullable|integer|min:1|max:100',
+        'date_in' => 'nullable|date',
+        'date_out' => 'nullable|date|after_or_equal:date_in',
+        'message' => 'nullable|string|max:2000',
     ]);
 
-    if ($booking) {
-        return redirect()->back()->with('success', '✅ Your booking request has been received! We’ll contact you soon to confirm availability.');
-    } else {
-        return redirect()->back()->with('error', '❌ Sorry, your booking could not be submitted. Please try again.');
+    $nights = $validated['nights'] ?? null;
+    if (!$nights && !empty($validated['date_in']) && !empty($validated['date_out'])) {
+        $nights = (int) abs(Carbon::parse($validated['date_in'])->diffInDays(Carbon::parse($validated['date_out'])));
+        $nights = $nights > 0 ? $nights : null;
     }
+
+    $payload = [
+        'room_id' => $validated['room_id'] ?? null,
+        'facility_id' => $validated['facility_id'] ?? null,
+        'nights' => $nights,
+        'guests' => $validated['guests'] ?? null,
+        'date_in' => $validated['date_in'] ?? null,
+        'date_out' => $validated['date_out'] ?? null,
+        'arrival_date' => $validated['date_in'] ?? null,
+        'message' => $validated['message'] ?? null,
+        'names' => $validated['names'],
+        'email' => $validated['email'] ?? null,
+        'phone' => $validated['phone'],
+        'channel' => 'WhatsApp',
+    ];
+
+    try {
+        $booking = Reservation::create($payload + ['status' => 'Pending']);
+    } catch (QueryException $exception) {
+        try {
+            $booking = Reservation::create($payload + ['status' => 'pending']);
+        } catch (QueryException $fallback) {
+            report($fallback);
+
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Your booking could not be saved. Please try again, or send the details on WhatsApp.');
+        }
+    }
+
+    $booking->load(['room', 'facility']);
+
+    return redirect()->back()
+        ->with('success', 'Your booking is saved. Please send the WhatsApp message so the hotel has every detail.')
+        ->with('whatsapp_url', $this->whatsappUrl($booking));
+}
+
+private function whatsappUrl(Reservation $booking): string
+{
+    $lines = [
+        'Hello Kivu Peace View Hotel, I would like to book a stay.',
+        '',
+        'Name: '.$booking->names,
+        'Phone: '.$booking->phone,
+        'Email: '.($booking->email ?: 'Not specified'),
+        'Room: '.($booking->room?->title ?? 'Not specified'),
+        'Service: '.($booking->facility?->title ?? 'Not specified'),
+        'Check-in: '.($booking->date_in ?: 'Not specified'),
+        'Check-out: '.($booking->date_out ?: 'Not specified'),
+        'Nights: '.($booking->nights ?: 'Not specified'),
+        'Guests: '.($booking->guests ?: 'Not specified'),
+        'Request: '.($booking->message ?: 'None'),
+    ];
+
+    return 'https://wa.me/'.self::WHATSAPP_NUMBER.'?text='.rawurlencode(implode("\n", $lines));
 }
 
 
@@ -271,6 +331,7 @@ public function bookNow(Request $request)
             'about'=>$about,
             'rooms'=>$rooms,
             'facilities'=>$facilities,
+            'whatsappNumber'=>self::WHATSAPP_NUMBER,
         ]);
     }
 

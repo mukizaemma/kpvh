@@ -18,6 +18,7 @@
             <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                 <a href="{{ route('aboutPage') }}" class="dropdown-item">My Profile</a>
                 <a href="{{ route('setting') }}" class="dropdown-item">Settings</a>
+                <a href="{{ route('adminPassword') }}" class="dropdown-item">Reset Password</a>
                 <a href="{{ route('logouts') }}" class="dropdown-item">Log Out</a>
             </div>
         </div>

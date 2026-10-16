@@ -14,6 +14,10 @@ class Reservation extends Model
         'names',
         'phone',
         'email',
+        'channel',
+        'arrival_date',
+        'date_in',
+        'date_out',
         'nights',
         'guests',
         'message',
@@ -21,6 +25,19 @@ class Reservation extends Model
         'facility_id',
         'room_id',
     ];
+
+    public function guestWhatsappLink(): ?string
+    {
+        $digits = preg_replace('/\D+/', '', (string) $this->phone);
+        if ($digits === '') {
+            return null;
+        }
+        if (str_starts_with($digits, '0')) {
+            $digits = '250'.substr($digits, 1);
+        }
+
+        return 'https://wa.me/'.$digits;
+    }
 
     public function room(){
         return $this->belongsTo(Room::class);
