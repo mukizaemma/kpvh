@@ -20,7 +20,6 @@ use App\Models\BlogComment;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\QueryException;
 use Carbon\Carbon;
 
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -235,33 +234,22 @@ public function bookNow(Request $request)
     }
 
     $payload = [
-        'room_id' => $validated['room_id'] ?? null,
-        'facility_id' => $validated['facility_id'] ?? null,
+        'room_id' => $validated['room_id'] ?: null,
+        'facility_id' => $validated['facility_id'] ?: null,
         'nights' => $nights,
         'guests' => $validated['guests'] ?? null,
-        'date_in' => $validated['date_in'] ?? null,
-        'date_out' => $validated['date_out'] ?? null,
-        'arrival_date' => $validated['date_in'] ?? null,
+        'date_in' => $validated['date_in'] ?: null,
+        'date_out' => $validated['date_out'] ?: null,
+        'arrival_date' => $validated['date_in'] ?: null,
         'message' => $validated['message'] ?? null,
         'names' => $validated['names'],
-        'email' => $validated['email'] ?? null,
+        'email' => $validated['email'] ?: null,
         'phone' => $validated['phone'],
         'channel' => 'WhatsApp',
+        'status' => 'Pending',
     ];
 
-    try {
-        $booking = Reservation::create($payload + ['status' => 'Pending']);
-    } catch (QueryException $exception) {
-        try {
-            $booking = Reservation::create($payload + ['status' => 'pending']);
-        } catch (QueryException $fallback) {
-            report($fallback);
-
-            return redirect()->back()
-                ->withInput()
-                ->with('error', 'Your booking could not be saved. Please try again, or send the details on WhatsApp.');
-        }
-    }
+    $booking = Reservation::storeBooking($payload);
 
     $booking->load(['room', 'facility']);
 

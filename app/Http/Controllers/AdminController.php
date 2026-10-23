@@ -210,6 +210,7 @@ class AdminController extends Controller
             ->with('success', 'Subscriber deleted successfully');
     }
     public function getMessages(){
+        Reservation::ensureStorage();
         $reservations = Reservation::with(['room', 'facility'])->latest()->paginate(15);
         $setting = Setting::first();
         return view('admin.posts.messages',[
