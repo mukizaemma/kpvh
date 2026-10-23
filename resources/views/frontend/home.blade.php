@@ -44,25 +44,6 @@ About Area
                     </div>
                 </div>
             </div>
-            <div class="shape-mockup about-shape movingX d-none d-xxl-block" data-bottom="0%" data-right="-11%">
-                <img src="assets/img/normal/about-slide-img.png" alt="shape">
-            </div>
-            <div class="shape-mockup about-rating d-none d-xxl-block" data-bottom="50%" data-right="-20%">
-                <i class="fa-sharp fa-solid fa-star"></i><span>4.9k</span>
-            </div>
-            <div class="shape-mockup about-emoji d-none d-xxl-block" data-bottom="25%" data-right="5%"><img src="assets/img/icon/emoji.png" alt="">
-            </div>
-            <div class="shape-mockup shape1 d-none d-xl-block" data-top="12%" data-left="-16%">
-                <img src="assets/img/shape/shape_1.png" alt="shape">
-            </div>
-            <div class="shape-mockup shape2 d-none d-xl-block" data-top="20%" data-left="-16%">
-                <img src="assets/img/shape/shape_2.png" alt="shape">
-            </div>
-            <div class="shape-mockup shape3 d-none d-xl-block" data-top="14%" data-left="-10%">
-                <img src="assets/img/shape/shape_3.png" alt="shape">
-            </div>
-        </div>
-        <div class="shape-mockup d-none d-xxl-block" data-bottom="15%" data-left="4%"><img src="assets/img/shape/car_2.png" alt="shape">
         </div>
     </div>
 
