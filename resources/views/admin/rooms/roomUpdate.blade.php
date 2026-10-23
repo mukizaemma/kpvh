@@ -63,7 +63,7 @@
                                         </div>
                                         <div class="col-lg-6 col-sm-12">
                                             <label for="title" class="form-label">Room Price</label>
-                                            <input type="text" name="price" class="form-control"
+                                            <input type="number" name="price" class="form-control" step="0.01" min="0"
                                                 id="title" value="{{$room->price}}">
                                         </div>
 
